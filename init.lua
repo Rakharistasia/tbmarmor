@@ -202,20 +202,20 @@ end
 -- ---------------------------------------------------------------------------
 local weaponDefs = {
     -- 2H weapons
-    { name = "Armsman's Greatsword", slot = 'primary',   classes = { WAR = true, PAL = true, RNG = true, SHD = true, BER = true } },
-    { name = "Armsman's Staff",      slot = 'primary',   classes = { WAR = true, PAL = true, RNG = true, SHD = true, MNK = true, BST = true, BER = true } },
+    { name = "Armsman's Greatsword", slot = 'mainhand',  classes = { WAR = true, PAL = true, RNG = true, SHD = true, BER = true } },
+    { name = "Armsman's Staff",      slot = 'mainhand',  classes = { WAR = true, PAL = true, RNG = true, SHD = true, MNK = true, BST = true, BER = true } },
     -- 1H weapons
-    { name = "Armsman's Axe",        slot = 'primary',   classes = { PAL = true, SHD = true } },
-    { name = "Armsman's Sword",      slot = 'primary',   classes = { WAR = true, RNG = true, BRD = true, ROG = true } },
-    { name = "Armsman's Club",       slot = 'primary',   classes = { WAR = true, RNG = true, MNK = true, BRD = true, ROG = true, BST = true } },
-    { name = "Armsman's Shiv",       slot = 'primary',   classes = { WAR = true, RNG = true, BRD = true, ROG = true, BST = true } },
-    { name = "Armsman's Dagger",     slot = 'primary',   classes = { ROG = true } },
-    { name = "Armsman's Knuckles",   slot = 'primary',   classes = { MNK = true, BST = true } },
-    { name = "Armsman's Wand",       slot = 'primary',   classes = { NEC = true, WIZ = true, MAG = true, ENC = true } },
-    { name = "Armsman's Rod",        slot = 'primary',   classes = { CLR = true, DRU = true, SHM = true } },
+    { name = "Armsman's Axe",        slot = 'mainhand',  classes = { PAL = true, SHD = true } },
+    { name = "Armsman's Sword",      slot = 'mainhand',  classes = { WAR = true, RNG = true, BRD = true, ROG = true } },
+    { name = "Armsman's Club",       slot = 'mainhand',  classes = { WAR = true, RNG = true, MNK = true, BRD = true, ROG = true, BST = true } },
+    { name = "Armsman's Shiv",       slot = 'mainhand',  classes = { WAR = true, RNG = true, BRD = true, ROG = true, BST = true } },
+    { name = "Armsman's Dagger",     slot = 'mainhand',  classes = { ROG = true } },
+    { name = "Armsman's Knuckles",   slot = 'mainhand',  classes = { MNK = true, BST = true } },
+    { name = "Armsman's Wand",       slot = 'mainhand',  classes = { NEC = true, WIZ = true, MAG = true, ENC = true } },
+    { name = "Armsman's Rod",        slot = 'mainhand',  classes = { CLR = true, DRU = true, SHM = true } },
     -- Offhand / Shield
-    { name = "Armsman's Shield",     slot = 'secondary', classes = { WAR = true, PAL = true, RNG = true, SHD = true, MNK = true, BRD = true, ROG = true, BST = true } },
-    { name = "Armsman's Buckler",    slot = 'secondary', classes = { CLR = true, DRU = true, SHM = true, NEC = true, WIZ = true, MAG = true, ENC = true } },
+    { name = "Armsman's Shield",     slot = 'offhand',   classes = { WAR = true, PAL = true, RNG = true, SHD = true, MNK = true, BRD = true, ROG = true, BST = true } },
+    { name = "Armsman's Buckler",    slot = 'offhand',   classes = { CLR = true, DRU = true, SHM = true, NEC = true, WIZ = true, MAG = true, ENC = true } },
     -- Ranged
     { name = "Armsman's Bow",        slot = 'range',     classes = { WAR = true, PAL = true, RNG = true, SHD = true, ROG = true } },
 }
