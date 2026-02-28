@@ -21,7 +21,7 @@ A MacroQuest Lua script that automates buying and equipping **The Broken Mirror 
 Place the `tbmarmor` folder inside your MacroQuest `lua/` directory:
 
 ```
-MacroQuest/Release/lua/tbmarmor/init.lua
+lua/tbmarmor/init.lua
 ```
 
 Run with:
