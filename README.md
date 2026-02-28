@@ -15,15 +15,6 @@ A MacroQuest Lua script that automates buying and equipping **The Broken Mirror 
 | Optional | MQ2Nav (for the Go to Vendor button) |
 
 ---
-
-## Installation
-
-Place the `tbmarmor` folder inside your MacroQuest `lua/` directory:
-
-```
-lua/tbmarmor/init.lua
-```
-
 Run with:
 
 ```
