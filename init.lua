@@ -265,7 +265,7 @@ local function addStatus(msg)
     if #statusLines > MAX_STATUS then
         table.remove(statusLines, 1)
     end
-    print(msg)
+    printf(msg)
 end
 
 local function updateRemnant()
@@ -871,7 +871,7 @@ ImGui.Register('TBM Armor Buyer', function()
     openGUI = tbmArmorUI(openGUI)
 end)
 
-print(string.format('\\ag[TBM Armor] \\axLoaded for \\at%s \\ax(%s) - Armor set: \\ao%s', myName, myClass, armorSet))
+printf('\\ag[TBM Armor] \\axLoaded for \\at%s \\ax(%s) - Armor set: \\ao%s', myName, myClass, armorSet)
 
 while openGUI do
     mq.doevents()
@@ -895,4 +895,4 @@ while openGUI do
     end
 end
 
-print('\\ag[TBM Armor] \\axScript exiting.')
+printf('\\ag[TBM Armor] \\axScript exiting.')
