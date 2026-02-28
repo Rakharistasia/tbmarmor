@@ -325,7 +325,7 @@ local function buildShoppingList()
             local itemName = slot.items[slot.selectedIdx + 1]
             if itemName and itemName ~= 'None' then
                 if slot.slot == 'ranged' and bowSelected then
-                    addStatus('\\ao  Skipping ranged slot (Bow selected)')
+                    addStatus('\ao  Skipping ranged slot (Bow selected)')
                 else
                     table.insert(list, { name = itemName, slot = slot.slot })
                 end
@@ -348,7 +348,7 @@ end
 -- ---------------------------------------------------------------------------
 local function doCheck()
     statusLines = {}
-    addStatus('\\ag--- Scanning equipped gear ---')
+    addStatus('\ag--- Scanning equipped gear ---')
     local shoppingList = buildShoppingList()
     local needCount = 0
     local skipCount = 0
@@ -356,21 +356,21 @@ local function doCheck()
 
     for _, item in ipairs(shoppingList) do
         if isEquipped(item.name, item.slot) then
-            addStatus(string.format('\\ag  [EQUIPPED] \\ax%s in %s', item.name, item.slot))
+            addStatus(string.format('\ag  [EQUIPPED] \ax%s in %s', item.name, item.slot))
             skipCount = skipCount + 1
         elseif isInInventory(item.name) then
-            addStatus(string.format('\\ao  [IN BAGS] \\ax%s -> %s (needs equip)', item.name, item.slot))
+            addStatus(string.format('\ao  [IN BAGS] \ax%s -> %s (needs equip)', item.name, item.slot))
             inBagCount = inBagCount + 1
         else
-            addStatus(string.format('\\ar  [NEED TO BUY] \\ax%s -> %s', item.name, item.slot))
+            addStatus(string.format('\ar  [NEED TO BUY] \ax%s -> %s', item.name, item.slot))
             needCount = needCount + 1
         end
     end
 
-    addStatus(string.format('\\ag--- Results: \\at%d\\ag equipped, \\ao%d\\ag in bags, \\ar%d\\ag need buying ---',
+    addStatus(string.format('\ag--- Results: \at%d\ag equipped, \ao%d\ag in bags, \ar%d\ag need buying ---',
         skipCount, inBagCount, needCount))
     updateRemnant()
-    addStatus(string.format('\\axRemnants of Tranquility: \\at%d', RoT))
+    addStatus(string.format('\axRemnants of Tranquility: \at%d', RoT))
 end
 
 -- ---------------------------------------------------------------------------
@@ -391,13 +391,13 @@ local function openMerchant()
     end)
 
     if not mq.TLO.Target() or mq.TLO.Target.CleanName() ~= 'Lyndalin Delwadamain' then
-        addStatus('\\ar  Could not target Lyndalin Delwadamain!')
+        addStatus('\ar  Could not target Lyndalin Delwadamain!')
         return false
     end
 
     -- Check distance
     if mq.TLO.Target.Distance() and mq.TLO.Target.Distance() > 20 then
-        addStatus('\\ar  Too far from vendor! Use "Go to Vendor" first.')
+        addStatus('\ar  Too far from vendor! Use "Go to Vendor" first.')
         return false
     end
 
@@ -406,7 +406,7 @@ local function openMerchant()
     mq.delay(5000, function() return mq.TLO.Window('MerchantWnd').Open() end)
 
     if not mq.TLO.Window('MerchantWnd').Open() then
-        addStatus('\\ar  Failed to open merchant window!')
+        addStatus('\ar  Failed to open merchant window!')
         return false
     end
 
@@ -414,7 +414,7 @@ local function openMerchant()
     mq.delay(5000, function() return mq.TLO.Merchant.ItemsReceived() end)
 
     if not mq.TLO.Merchant.ItemsReceived() then
-        addStatus('\\ar  Merchant items not received in time!')
+        addStatus('\ar  Merchant items not received in time!')
         return false
     end
 
@@ -432,7 +432,7 @@ end
 -- Buy a single item from the merchant
 -- ---------------------------------------------------------------------------
 local function buyItem(itemName)
-    addStatus(string.format('\\ao  Buying: \\at%s', itemName))
+    addStatus(string.format('\ao  Buying: \at%s', itemName))
 
     mq.cmdf('/invoke ${Merchant.SelectItem[=%s]}', itemName)
     mq.delay(1000)
@@ -457,12 +457,12 @@ end
 local function equipItem(itemName, slotName)
     -- First check if MQ2Exchange plugin is loaded for easier equipping
     if mq.TLO.Plugin('MQ2Exchange').IsLoaded() then
-        addStatus(string.format('\\ao  Equipping (exchange): \\at%s \\ax-> %s', itemName, slotName))
+        addStatus(string.format('\ao  Equipping (exchange): \at%s \ax-> %s', itemName, slotName))
         mq.cmdf('/exchange "%s" %s', itemName, slotName)
         mq.delay(1500)
     else
         -- Manual method: pick up item, then click on the slot
-        addStatus(string.format('\\ao  Equipping (itemnotify): \\at%s \\ax-> %s', itemName, slotName))
+        addStatus(string.format('\ao  Equipping (itemnotify): \at%s \ax-> %s', itemName, slotName))
 
         -- Pick up the item from inventory
         mq.cmdf('/itemnotify "%s" leftmouseup', itemName)
@@ -470,7 +470,7 @@ local function equipItem(itemName, slotName)
 
         -- Check if item is on cursor
         if not mq.TLO.Cursor() then
-            addStatus(string.format('\\ar  Failed to pick up "%s" from inventory!', itemName))
+            addStatus(string.format('\ar  Failed to pick up "%s" from inventory!', itemName))
             return false
         end
 
@@ -488,10 +488,10 @@ local function equipItem(itemName, slotName)
     -- Verify it equipped
     mq.delay(500)
     if isEquipped(itemName, slotName) then
-        addStatus(string.format('\\ag  Equipped: \\at%s \\axin %s', itemName, slotName))
+        addStatus(string.format('\ag  Equipped: \at%s \axin %s', itemName, slotName))
         return true
     else
-        addStatus(string.format('\\ar  Warning: %s may not have equipped into %s - check manually', itemName, slotName))
+        addStatus(string.format('\ar  Warning: %s may not have equipped into %s - check manually', itemName, slotName))
         return false
     end
 end
@@ -502,17 +502,17 @@ end
 local function doBuyAndEquip()
     isRunning = true
     statusLines = {}
-    addStatus('\\ag=== TBM Armor Buy & Equip Started ===')
+    addStatus('\ag=== TBM Armor Buy & Equip Started ===')
 
     -- Zone check
     if mq.TLO.Zone.ShortName() ~= 'potranquility' and not doDebug then
-        addStatus('\\ar  Not in Plane of Tranquility! Use \\agDebug \\axmode to test, or go to the zone first.')
+        addStatus('\ar  Not in Plane of Tranquility! Use \agDebug \axmode to test, or go to the zone first.')
         isRunning = false
         return
     end
 
     -- Pause class plugin
-    addStatus('\\ao  Pausing class plugin...')
+    addStatus('\ao  Pausing class plugin...')
     mq.cmdf('/squelch /%s pause on', myClass:lower())
     if mq.TLO.Plugin('mq2autoforage').IsLoaded() then
         mq.cmd('/squelch /stopforage')
@@ -521,7 +521,7 @@ local function doBuyAndEquip()
     local shoppingList = buildShoppingList()
 
     if #shoppingList == 0 then
-        addStatus('\\ar  Nothing selected to buy/equip!')
+        addStatus('\ar  Nothing selected to buy/equip!')
         isRunning = false
         return
     end
@@ -532,31 +532,31 @@ local function doBuyAndEquip()
 
     for _, item in ipairs(shoppingList) do
         if isEquipped(item.name, item.slot) then
-            addStatus(string.format('\\ag  [SKIP] \\ax%s already equipped in %s', item.name, item.slot))
+            addStatus(string.format('\ag  [SKIP] \ax%s already equipped in %s', item.name, item.slot))
         elseif isInInventory(item.name) then
-            addStatus(string.format('\\ao  [IN BAGS] \\ax%s - will equip to %s', item.name, item.slot))
+            addStatus(string.format('\ao  [IN BAGS] \ax%s - will equip to %s', item.name, item.slot))
             table.insert(toEquip, item)
         else
-            addStatus(string.format('\\at  [BUY] \\ax%s -> %s', item.name, item.slot))
+            addStatus(string.format('\at  [BUY] \ax%s -> %s', item.name, item.slot))
             table.insert(toBuy, item)
         end
     end
 
     -- Buy phase
     if #toBuy > 0 then
-        addStatus(string.format('\\ag--- Buying %d items ---', #toBuy))
+        addStatus(string.format('\ag--- Buying %d items ---', #toBuy))
         updateRemnant()
-        addStatus(string.format('\\axCurrent Remnants: \\at%d', RoT))
+        addStatus(string.format('\axCurrent Remnants: \at%d', RoT))
 
         if doDebug then
             for _, item in ipairs(toBuy) do
-                addStatus(string.format('\\agDebug: \\axWould buy \\ao%s \\axfor slot %s', item.name, item.slot))
+                addStatus(string.format('\agDebug: \axWould buy \ao%s \axfor slot %s', item.name, item.slot))
                 mq.delay(300)
             end
         else
             -- Open merchant
             if not openMerchant() then
-                addStatus('\\ar  Failed to open merchant! Aborting buy phase.')
+                addStatus('\ar  Failed to open merchant! Aborting buy phase.')
                 isRunning = false
                 return
             end
@@ -567,7 +567,7 @@ local function doBuyAndEquip()
                 if success then
                     table.insert(toEquip, item)
                 else
-                    addStatus(string.format('\\ar  Failed to buy %s - skipping', item.name))
+                    addStatus(string.format('\ar  Failed to buy %s - skipping', item.name))
                 end
                 mq.delay(500)
             end
@@ -575,16 +575,16 @@ local function doBuyAndEquip()
             closeMerchant()
         end
     else
-        addStatus('\\ag  No items need buying.')
+        addStatus('\ag  No items need buying.')
     end
 
     -- Equip phase
     if #toEquip > 0 then
-        addStatus(string.format('\\ag--- Equipping %d items ---', #toEquip))
+        addStatus(string.format('\ag--- Equipping %d items ---', #toEquip))
 
         if doDebug then
             for _, item in ipairs(toEquip) do
-                addStatus(string.format('\\agDebug: \\axWould equip \\ao%s \\axto %s', item.name, item.slot))
+                addStatus(string.format('\agDebug: \axWould equip \ao%s \axto %s', item.name, item.slot))
                 mq.delay(300)
             end
         else
@@ -595,19 +595,19 @@ local function doBuyAndEquip()
             end
         end
     else
-        addStatus('\\ag  No items need equipping.')
+        addStatus('\ag  No items need equipping.')
     end
 
     -- Resume class plugin
-    addStatus('\\ao  Resuming class plugin...')
+    addStatus('\ao  Resuming class plugin...')
     mq.cmdf('/squelch /%s pause off', myClass:lower())
     if mq.TLO.Plugin('mq2autoforage').IsLoaded() then
         mq.cmd('/squelch /startforage')
     end
 
     updateRemnant()
-    addStatus(string.format('\\axRemnants remaining: \\at%d', RoT))
-    addStatus('\\ag=== TBM Armor Buy & Equip Complete ===')
+    addStatus(string.format('\axRemnants remaining: \at%d', RoT))
+    addStatus('\ag=== TBM Armor Buy & Equip Complete ===')
     isRunning = false
 end
 
@@ -618,21 +618,21 @@ local function doReclaim()
     local invWindow = mq.TLO.Window('InventoryWindow')
 
     -- Open inventory window
-    addStatus('\\ao  Opening inventory window...')
+    addStatus('\ao  Opening inventory window...')
     if not (invWindow() and invWindow.Open()) then
         invWindow.DoOpen()
         mq.delay(5000, function() return invWindow() and invWindow.Open() end)
         if not (invWindow() and invWindow.Open()) then
-            addStatus('\\ar  Failed to open inventory window!')
+            addStatus('\ar  Failed to open inventory window!')
             return
         end
     end
 
     -- Switch to the currency tab
-    addStatus('\\ao  Switching to currency tab...')
+    addStatus('\ao  Switching to currency tab...')
     local tabBox = invWindow.Child('IW_Subwindows')
     if not tabBox or not tabBox() then
-        addStatus('\\ar  Could not find inventory tab control!')
+        addStatus('\ar  Could not find inventory tab control!')
         return
     end
 
@@ -656,23 +656,23 @@ local function doReclaim()
             end
         end
         if not found then
-            addStatus('\\ar  Could not find alt currency tab!')
+            addStatus('\ar  Could not find alt currency tab!')
             return
         end
     end
 
     -- Click Reclaim All
-    addStatus('\\ao  Clicking Reclaim All...')
+    addStatus('\ao  Clicking Reclaim All...')
     local reclaimAllBtn = invWindow.Child('IW_AltCurr_ReclaimAllButton')
     if not reclaimAllBtn or not reclaimAllBtn() then
-        addStatus('\\ar  Reclaim All button not found!')
+        addStatus('\ar  Reclaim All button not found!')
         return
     end
     reclaimAllBtn.LeftMouseUp()
 
     mq.delay(500)
     updateRemnant()
-    addStatus(string.format('\\ag  Reclaim complete! Remnants of Tranquility: \\at%d', RoT))
+    addStatus(string.format('\ag  Reclaim complete! Remnants of Tranquility: \at%d', RoT))
 end
 
 -- ---------------------------------------------------------------------------
@@ -786,7 +786,7 @@ local function drawStatusLog()
         local childHeight = math.max(120, (availY or 120) - 10)
         if imgui.BeginChild('StatusScroll', availX or -1, childHeight, ImGuiChildFlags.Border) then
             for _, line in ipairs(statusLines) do
-                imgui.Text(line:gsub('\\a[a-zA-Z]', ''))
+                imgui.Text(line:gsub('\a[a-zA-Z]', ''))
             end
             -- Auto-scroll to bottom
             if imgui.GetScrollY() >= imgui.GetScrollMaxY() - 20 then
@@ -871,7 +871,7 @@ ImGui.Register('TBM Armor Buyer', function()
     openGUI = tbmArmorUI(openGUI)
 end)
 
-printf('\\ag[TBM Armor] \\axLoaded for \\at%s \\ax(%s) - Armor set: \\ao%s', myName, myClass, armorSet)
+printf('\ag[TBM Armor] \axLoaded for \at%s \ax(%s) - Armor set: \ao%s', myName, myClass, armorSet)
 
 while openGUI do
     mq.doevents()
@@ -895,4 +895,4 @@ while openGUI do
     end
 end
 
-printf('\\ag[TBM Armor] \\axScript exiting.')
+printf('\ag[TBM Armor] \axScript exiting.')
