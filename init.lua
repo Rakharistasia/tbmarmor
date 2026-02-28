@@ -8,6 +8,7 @@
     Currency: Remnants of Tranquility
     Vendor:   Lyndalin Delwadamain
     Zone:     Plane of Tranquility (potranquility)
+    Inspired by: TBMSwap
 ]]
 
 local mq = require('mq')
@@ -264,7 +265,7 @@ local function addStatus(msg)
     if #statusLines > MAX_STATUS then
         table.remove(statusLines, 1)
     end
-    mq.cmd('/echo ' .. msg)
+    print(msg)
 end
 
 local function updateRemnant()
@@ -870,7 +871,7 @@ ImGui.Register('TBM Armor Buyer', function()
     openGUI = tbmArmorUI(openGUI)
 end)
 
-mq.cmd('/echo ' .. string.format('\\ag[TBM Armor] \\axLoaded for \\at%s \\ax(%s) - Armor set: \\ao%s', myName, myClass, armorSet))
+print(string.format('\\ag[TBM Armor] \\axLoaded for \\at%s \\ax(%s) - Armor set: \\ao%s', myName, myClass, armorSet))
 
 while openGUI do
     mq.doevents()
@@ -894,4 +895,4 @@ while openGUI do
     end
 end
 
-mq.cmd('/echo \\ag[TBM Armor] \\axScript exiting.')
+print('\\ag[TBM Armor] \\axScript exiting.')
