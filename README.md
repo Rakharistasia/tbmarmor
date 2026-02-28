@@ -2,6 +2,8 @@
 
 A MacroQuest Lua script that automates buying and equipping **The Broken Mirror (TBM)** armor, non-visible gear, and weapons from the vendor **Lyndalin Delwadamain** in the **Plane of Tranquility**.
 
+https://tbm.eqresource.com/potranqgroupvendor.php
+
 ---
 
 ## Requirements
